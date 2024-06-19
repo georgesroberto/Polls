@@ -1,29 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <form action="{% url 'polls:vote' question.id %}" method="post">
-      {% csrf_token %}
-      <fieldset>
-        <legend><h1>{{ question.question_text }}</h1></legend>
-        {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
-        {% endif %} {% for choice in question.choice_set.all %}
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container mt-5">
+  <h1>{{ question.question_text }}</h1>
+  <form
+    action="{% url 'polls:vote' question.id %}"
+    method="post"
+    class="form form-group"
+  >
+    {% csrf_token %}
+    <fieldset>
+      <legend>Vote for Your Favorite Option</legend>
+      {% if error_message %}
+      <p class="error-message"><strong>{{ error_message }}</strong></p>
+      {% endif %} {% for choice in question.choice_set.all %}
+      <div class="form-control p-2 m-2">
         <input
           type="radio"
           name="choice"
           id="choice{{ forloop.counter }}"
           value="{{ choice.id }}"
         />
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label
-        ><br />
-        {% endfor %}
-      </fieldset>
-      <input type="submit" value="Vote" />
-    </form>
-  </body>
-</html>
+        <label for="choice{{ forloop.counter }}"
+          >{{ choice.choice_text }}</label
+        >
+      </div>
+      {% endfor %}
+    </fieldset>
+    <button type="submit" class="btn btn-primary m-2">Vote</button>
+  </form>
+  <p class="hint">Remember, your vote matters!</p>
+</div>
+{% endblock %}

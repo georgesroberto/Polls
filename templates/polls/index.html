@@ -1,24 +1,32 @@
-{% load static %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'polls/styles.css' %}" />
-  </head>
-  <body>
+<div class="container mt-5">
+  <header>
+    <h1>Welcome to the Polls App</h1>
+    <p>Your opinion matters! Cast your vote on a variety of topics.</p>
+  </header>
+
+  <section class="card p-3 border-primary ">
+    <h2 class="card-header">Current Polls</h2>
     {% if question_list %}
-    <ul>
+    <ul class="card-body">
       {% for question in question_list %}
-      <li>
-        <a href="{% url 'polls:detail' question.id %}"
-          >{{ question.question_text }}</a
-        >
+      <li class="">
+        <a href="{% url 'polls:detail' question.id %}">
+          {{ question.question_text }}
+        </a>
+        <span class="vote-count">Votes: {{ question.vote_count }}</span>
       </li>
       {% endfor %}
     </ul>
+    {% else %}
+    <p>No active polls at the moment. Check back soon!</p>
     {% endif %}
-  </body>
-</html>
+  </section>
+
+  <footer>
+    <p>Thank you for participating in our polls. Your voice is heard!</p>
+  </footer>
+</div>
+
+{% endblock %}

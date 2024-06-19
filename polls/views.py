@@ -28,7 +28,7 @@ class DetailView(generic.DetailView):
 
 class ResultsView(generic.DetailView):
     model = Question
-    template_name = "polls/results.html",
+    template_name = "polls/results.html"
 
 
 def vote(request, question_id):
@@ -41,8 +41,8 @@ def vote(request, question_id):
             { 
                 "question":  question, 
                 "error_message": "You didn;t select a choice"
-            },
-        ),
+            }
+        )
     else:
         selected_choice.votes = F("votes") + 1
         selected_choice.save()
